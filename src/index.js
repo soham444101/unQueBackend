@@ -1,12 +1,16 @@
 require("dotenv").config();
 
 const express = require("express");
+const path = require("path");
 
 const app = express();
 const port = Number(process.env.PORT) || 3000;
 
 app.use(express.json());
 
+app.get("/privacy", (req, res) => {
+    return res.sendFile(path.join(__dirname, "..", "public", "privacy.html"));
+});
 
 app.get("/webhook", (req, res) => {
     console.log("Received webhook req.query", req.query);
@@ -22,7 +26,7 @@ app.get("/webhook", (req, res) => {
         process.env.META_VERIFY_TOKEN &&
         verifyToken === String(process.env.META_VERIFY_TOKEN)
     ) {
-        return res.status(200).send(challenge);
+        return res.status(200).send(challenge); 
     }
 
     return res.status(403).send('Forbidden')
