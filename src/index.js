@@ -9,6 +9,8 @@ app.use(express.json());
 
 
 app.get("/webhook", (req, res) => {
+    console.log("Received webhook req.query", req.query);
+    console.log("Received webhook req.body", JSON.stringify(req.body));
     const mode = req.query["hub.mode"];
     const verifyToken = req.query["hub.verify_token"];
     const challenge = req.query["hub.challenge"];
