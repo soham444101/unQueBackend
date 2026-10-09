@@ -11,6 +11,9 @@ app.use(express.json());
 app.get("/privacy", (req, res) => {
     return res.sendFile(path.join(__dirname, "..", "public", "privacy.html"));
 });
+app.get("/privacy", (req, res) => {
+    return res.sendFile(path.join(__dirname, "..", "public", "deletionInstruction.html"));
+});
 
 app.get("/webhook", (req, res) => {
     console.log("Received webhook req.query", req.query);
