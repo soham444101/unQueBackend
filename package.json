@@ -2,10 +2,11 @@
   "name": "unquebackend",
   "version": "1.0.0",
   "main": "src/index.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node src/index.js",
-    "dev": "nodemon src/index.js"
+    "dev": "nodemon  dotenv/config --experimental-json-module src/app.js"
   },
   "keywords": [],
   "author": "",
@@ -13,7 +14,8 @@
   "description": "",
   "dependencies": {
     "dotenv": "^18.0.5",
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "socket.io": "^4.8.4"
   },
   "devDependencies": {
     "nodemon": "^3.1.14"
