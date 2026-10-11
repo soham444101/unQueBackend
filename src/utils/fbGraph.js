@@ -14,7 +14,7 @@ async function getLeadData(leadgenId) {
       console.error("Error occuring in time of fetchinglead throught graph api", data.error)
     }
     console.log("getLeadData data", data);
-    const isFDArray = Array.isAray(data?.field_data);
+    const isFDArray = Array.isArray(data?.field_data);
     if (!isFDArray) {
       console.error("Somthing wrong field data coming in graph apiof lead is not array", data?.field_data);
       return;
