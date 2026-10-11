@@ -12,6 +12,7 @@ async function getLeadData(leadgenId) {
     const data = await res.json();
     if (Object.keys(data).length > 0 && data.hasOwnProperty('error')) {
       console.error("Error occuring in time of fetchinglead throught graph api", data.error)
+      return;
     }
     console.log("getLeadData data", data);
     const isFDArray = Array.isArray(data?.field_data);
@@ -31,50 +32,50 @@ async function getLeadData(leadgenId) {
   }
 
 
-  ```
-    id": "1118962753891509",
-  "created_time": "2026-10-09T11:26:25+0000",
-  "field_data": [
-    {
-      "name": "you_are_a_software_developer?",
-      "values": [
-        "<test lead: dummy data for you_are_a_software_developer?>"
-      ]
-    },
-    {
-      "name": "describe_you_software_experience_?",
-      "values": [
-        "<test lead: dummy data for describe_you_software_experience_?>"
-      ]
-    },
-    {
-      "name": "email",
-      "values": [
-        "test@meta.com"
-      ]
-    },
-    {
-      "name": "full_name",
-      "values": [
-        "<test lead: dummy data for full_name>"
-      ]
-    },
-    {
-      "name": "phone_number",
-      "values": [
-        "<test lead: dummy data for phone_number>"
-      ]
-    },
-    {
-      "name": "inbox_url",
-      "values": [
-        "<test lead: dummy data for inbox_url>"
-      ]
-    }
-  ],
-  "form_id": "1439403894782786"
-}
-  ```
+//   ```
+//     id": "1118962753891509",
+//   "created_time": "2026-10-09T11:26:25+0000",
+//   "field_data": [
+//     {
+//       "name": "you_are_a_software_developer?",
+//       "values": [
+//         "<test lead: dummy data for you_are_a_software_developer?>"
+//       ]
+//     },
+//     {
+//       "name": "describe_you_software_experience_?",
+//       "values": [
+//         "<test lead: dummy data for describe_you_software_experience_?>"
+//       ]
+//     },
+//     {
+//       "name": "email",
+//       "values": [
+//         "test@meta.com"
+//       ]
+//     },
+//     {
+//       "name": "full_name",
+//       "values": [
+//         "<test lead: dummy data for full_name>"
+//       ]
+//     },
+//     {
+//       "name": "phone_number",
+//       "values": [
+//         "<test lead: dummy data for phone_number>"
+//       ]
+//     },
+//     {
+//       "name": "inbox_url",
+//       "values": [
+//         "<test lead: dummy data for inbox_url>"
+//       ]
+//     }
+//   ],
+//   "form_id": "1439403894782786"
+// }
+//   ```
 }
 
 export { getLeadData };

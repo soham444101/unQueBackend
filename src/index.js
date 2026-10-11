@@ -62,7 +62,7 @@ app.get("/webhook", (req, res) => {
 
     return res.status(403).send('Forbidden')
 });
-
+const runningLeadRequest = new Set();
 app.post("/webhook", async (req, res) => {
     console.log("Received webhook event:", JSON.stringify(req.body));
     const jsonBody = req.body;
@@ -74,10 +74,15 @@ app.post("/webhook", async (req, res) => {
     //    let formId = data.form_id;
     const leadgenId = data.leadgen_id;
     console.log("Received webhook event: leadgenId", leadgenId);
-
+    if (runningLeadRequest.has(leadgenId)) {
+        console.log("Already processing this leadgenId, skipping:", leadgenId);
+        return;
+    }
+    runningLeadRequest.add(leadgenId);
     const frontendData = await getLeadData(leadgenId);
 
     console.log("Received webhook event: frontendData", frontendData);
+    runningLeadRequest.delete(leadgenId)
     if (!frontendData) {
         console.error("No frontend data we get");
         // alert we creat in log that leadId not working
@@ -87,30 +92,30 @@ app.post("/webhook", async (req, res) => {
     // send this data to throught websocket 
     console.log("Emitting new_lead event to frontend through WebSocket");
     io.emit("new_lead", frontendData);
-    ```
-    {
-    "entry":[
-    {
-    "id":"1346917295174244",
-    "time":1791545188,
-    "changes":
-    [
-    {
-    "value":
-    {
-    "created_time":1791545185,
-    "leadgen_id":"1118962753891509",
-    "page_id":"1346917295174244",
-    "form_id":"1439403894782786"
-    },
-    "field":"leadgen"}
-    ]
-    }
-    ]
-    ,
-    "object":"page"
-    }
-    ```
+    // ```
+    // {
+    // "entry":[
+    // {
+    // "id":"1346917295174244",
+    // "time":1791545188,
+    // "changes":
+    // [
+    // {
+    // "value":
+    // {
+    // "created_time":1791545185,
+    // "leadgen_id":"1118962753891509",
+    // "page_id":"1346917295174244",
+    // "form_id":"1439403894782786"
+    // },
+    // "field":"leadgen"}
+    // ]
+    // }
+    // ]
+    // ,
+    // "object":"page"
+    // }
+    // ```
 
     return res.status(200).send("EVENT_RECEIVED");
 });
