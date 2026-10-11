@@ -44,14 +44,14 @@ app.get("/deletion-instructions", (req, res) => {
 });
 
 app.get("/webhook", (req, res) => {
-    console.log("Received webhook req.query", req.query);
+    // console.log("Received webhook req.query", req.query);
     console.log("Received webhook req.body", JSON.stringify(req.body));
     const mode = req.query["hub.mode"];
     const verifyToken = req.query["hub.verify_token"];
     const challenge = req.query["hub.challenge"];
 
-    console.log("Received webhook ", { mode, verifyToken, challenge });
-    console.log("Env Meta verify token", process.env.META_VERIFY_TOKEN, typeof process.env.META_VERIFY_TOKEN);
+    //console.log("Received webhook ", { mode, verifyToken, challenge });
+    //console.log("Env Meta verify token", process.env.META_VERIFY_TOKEN, typeof process.env.META_VERIFY_TOKEN);
     if (
         mode === "subscribe" &&
         process.env.META_VERIFY_TOKEN &&
@@ -64,9 +64,9 @@ app.get("/webhook", (req, res) => {
 });
 const runningLeadRequest = new Set();
 app.post("/webhook", async (req, res) => {
-    console.log("Received webhook event:", JSON.stringify(req.body));
+    //console.log("Received webhook event:", JSON.stringify(req.body));
     const jsonBody = req.body;
-    console.log("Received webhook event: ", jsonBody.entry[0].changes[0].value);
+    //console.log("Received webhook event: ", jsonBody.entry[0].changes[0].value);
 
     const data = jsonBody.entry[0].changes[0].value;
 
@@ -81,7 +81,7 @@ app.post("/webhook", async (req, res) => {
     runningLeadRequest.add(leadgenId);
     const frontendData = await getLeadData(leadgenId);
 
-    console.log("Received webhook event: frontendData", frontendData);
+    // console.log("Received webhook event: frontendData", frontendData);
     runningLeadRequest.delete(leadgenId)
     if (!frontendData) {
         console.error("No frontend data we get");
@@ -90,34 +90,10 @@ app.post("/webhook", async (req, res) => {
     }
     // save in db
     // send this data to throught websocket 
-    console.log("Emitting new_lead event to frontend through WebSocket");
+    //console.log("Emitting new_lead event to frontend through WebSocket");
     io.emit("new_lead", frontendData);
-    // ```
-    // {
-    // "entry":[
-    // {
-    // "id":"1346917295174244",
-    // "time":1791545188,
-    // "changes":
-    // [
-    // {
-    // "value":
-    // {
-    // "created_time":1791545185,
-    // "leadgen_id":"1118962753891509",
-    // "page_id":"1346917295174244",
-    // "form_id":"1439403894782786"
-    // },
-    // "field":"leadgen"}
-    // ]
-    // }
-    // ]
-    // ,
-    // "object":"page"
-    // }
-    // ```
-
-    return res.status(200).send("EVENT_RECEIVED");
+    
+    return res.status(200);
 });
 
 app.listen(port, () => {

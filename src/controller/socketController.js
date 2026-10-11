@@ -8,9 +8,9 @@ function socketController(io) {
         setInterval(() => {
             socket.emit("ping", { message: "ping" });
         }, 10000);
-        socket.on("message", (m) => {
-            console.log("Message sent from client", m);
-        });
+        // socket.on("message", (m) => {
+        //     console.log("Message sent from client", m);
+        // });
         socket.on("pong", () => {
             console.log("Receiverd pong from client");
         });
