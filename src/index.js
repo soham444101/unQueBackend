@@ -68,7 +68,7 @@ app.post("/webhook", async (req, res) => {
     const jsonBody = req.body;
     console.log("Received webhook event: ", jsonBody.entry[0].changes[0].value);
 
-    const data = jsonBody.entry[0].changes[0].value;    
+    const data = jsonBody.entry[0].changes[0].value;
 
     //    let pageId = data.page_id;
     //    let formId = data.form_id;
@@ -78,12 +78,15 @@ app.post("/webhook", async (req, res) => {
     const frontendData = await getLeadData(leadgenId);
 
     console.log("Received webhook event: frontendData", frontendData);
-    if (frontendData) {
-        // save in db
-        // send this data to throught websocket 
-        console.log("Emitting new_lead event to frontend through WebSocket");
-        io.emit("new_lead", frontendData);
+    if (!frontendData) {
+        console.error("No frontend data we get");
+        // alert we creat in log that leadId not working
+        return;
     }
+    // save in db
+    // send this data to throught websocket 
+    console.log("Emitting new_lead event to frontend through WebSocket");
+    io.emit("new_lead", frontendData);
     ```
     {
     "entry":[
