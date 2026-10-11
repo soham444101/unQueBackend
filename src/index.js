@@ -5,6 +5,7 @@ import { Server } from "socket.io";
 
 import dotenv from "dotenv";
 import { socketController } from "./controller/socketController.js";
+import { getLeadData } from "./utils/fbGraph.js";
 
 dotenv.config({
     path: './.env'
@@ -67,7 +68,7 @@ app.post("/webhook", async (req, res) => {
     const jsonBody = req.body;
     console.log("Received webhook event: ", jsonBody.entry[0].changes[0].value);
 
-    const data = jsonBody.entry[0].changes[0].value;
+    const data = jsonBody.entry[0].changes[0].value;    
 
     //    let pageId = data.page_id;
     //    let formId = data.form_id;
